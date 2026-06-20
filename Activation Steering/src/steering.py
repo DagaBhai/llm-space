@@ -3,12 +3,12 @@ from model import model, tokenizer
 
 def make_hook(alpha, direction_vector):
     def hook(module, input, output):
-        vec = torch.tensor(direction_vector, device=output[0].device, dtype=output[0].dtype)
-        output[0] += alpha * direction_vector
+        vec = direction_vector.to(device=output[0].device, dtype=output[0].dtype)
+        output[0] += alpha * vec
         return output
     return hook
 
-def output(prompt, alpha, direction =  torch.load("directions\sentiment_direction.pt"), layer = 8):
+def output(prompt, alpha, direction =  torch.load("directions\sentiment_direction.pt"), layer = 6):
     h = model.transformer.h[layer].register_forward_hook(make_hook(alpha, direction_vector = direction))
     inputs = tokenizer(prompt, return_tensors="pt")
     out = model.generate(**inputs)
