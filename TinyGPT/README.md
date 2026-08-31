@@ -23,13 +23,20 @@ A minimal, from-scratch, decoder-only GPT implemented in PyTorch — built to un
 
 A word-level tokenizer (splits on whitespace, not sub-word/BPE). The vocabulary is built once from a text corpus:
 
-$$V = \{\texttt{<pad>}, \texttt{<unk>}\} \cup \text{sorted}(\text{unique}(\text{words}))$$
+```text
+V = {<pad>, <unk>} ∪ sorted(unique(words))
+```
 
-**Encoding** a string maps each whitespace-separated token to its id, falling back to `<unk>` for anything unseen:
+**Encoding** a string maps each whitespace-separated token to its ID, falling back to `<unk>` for anything unseen:
 
-$$\text{id}(t) = \begin{cases} \text{char\_to\_int}[t] & \text{if } t \in V \\ \text{id}(\texttt{<unk>}) & \text{otherwise} \end{cases}$$
+```text
+id(t) = token_to_int[t]       if t is in V
+        id(<unk>)             otherwise
+```
 
-**Decoding** is the inverse lookup, joined back into a string with spaces. Because splitting is purely on `" "`, punctuation stays glued to words (`"cat."` and `"cat"` are different tokens) — a known limitation of this simple scheme versus BPE/WordPiece.
+**Decoding** performs the inverse lookup and joins the tokens back into a string with spaces.
+
+Because splitting is purely on `" "`, punctuation stays glued to words (`cat.` and `cat` are different tokens). This is a known limitation of this simple scheme compared with BPE/WordPiece.
 
 ---
 
