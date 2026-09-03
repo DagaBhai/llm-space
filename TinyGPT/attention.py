@@ -2,13 +2,18 @@ import torch.nn as nn
 import math
 import torch
 
-class SingleHeadAttention(nn.Module):
+class SelfAttention(nn.Module):
     def __init__(self, dimension):
         super().__init__()
 
         self.Wq = nn.Linear(dimension,dimension,bias=False)
         self.Wk = nn.Linear(dimension,dimension,bias=False)
         self.Wv = nn.Linear(dimension,dimension,bias=False)
+
+    def _set_weights(self, Wq, Wk, Wv):
+        self.Wq = Wq
+        self.Wk = Wk
+        self.Wv = Wv
 
     def forward(self, x):
         Q = self.Wq(x)
@@ -32,7 +37,7 @@ if __name__ == '__main__':
     embed_dim = 8
 
     x = torch.randn(batch_size, seq_len, embed_dim)
-    attn_layer = SingleHeadAttention(dimension=embed_dim)
+    attn_layer = SelfAttention(dimension=embed_dim)
     output, weights = attn_layer(x)
 
     print("--- Test Output Shapes ---")
