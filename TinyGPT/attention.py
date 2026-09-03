@@ -9,12 +9,7 @@ class SelfAttention(nn.Module):
         self.Wq = nn.Linear(dimension,dimension,bias=False)
         self.Wk = nn.Linear(dimension,dimension,bias=False)
         self.Wv = nn.Linear(dimension,dimension,bias=False)
-
-    def _set_weights(self, Wq, Wk, Wv):
-        self.Wq = Wq
-        self.Wk = Wk
-        self.Wv = Wv
-
+        
     def forward(self, x):
         Q = self.Wq(x)
         K = self.Wk(x)
