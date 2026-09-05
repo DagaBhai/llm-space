@@ -37,7 +37,7 @@ epochs = 1000
 x = data[:block_size].unsqueeze(0)
 y = data[1:block_size + 1].unsqueeze(0)
 
-for epoch in epochs:
+for epoch in range(epochs):
 
     optimizer.zero_grad()
 
